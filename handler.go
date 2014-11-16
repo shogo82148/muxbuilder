@@ -35,6 +35,10 @@ func (hd *handlerDefinition) write(w io.Writer) {
 		fmt.Fprintf(w, "param%s := %s\n", param.name, param.expr)
 	}
 	fmt.Fprintf(w, "%s(&%s{\n", hd.name, hd.contextName)
+	fmt.Fprintln(w, `	Context: Context {
+ResponseWriter: argWriter,
+Request:        argRequest,
+},`)
 	for _, param := range hd.params {
 		fmt.Fprintf(w, "%s: param%s,\n", param.name, param.name)
 	}

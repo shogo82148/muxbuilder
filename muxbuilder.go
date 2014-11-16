@@ -58,6 +58,13 @@ func (bc *muxContext) write(w io.Writer) error {
 	}
 	fmt.Fprintln(w, ")")
 
+	fmt.Fprintln(w, `
+type Context struct {
+	ResponseWriter http.ResponseWriter
+	Request        *http.Request
+}
+`)
+
 	for _, cd := range bc.contexts {
 		cd.write(w)
 	}
@@ -80,10 +87,6 @@ func (bc *muxContext) addRoute(r Route) {
 	}
 	cd := newContextDefinition(r.Name + "Context")
 	hd := newHandlerDefinition(method, r.URL, r.Name, cd.name)
-	cd.addField("ResponseWriter", "http.ResponseWriter")
-	hd.addParam("ResponseWriter", "argWriter")
-	cd.addField("Request", "*http.Request")
-	hd.addParam("Request", "argRequest")
 
 	for _, match := range regParamName.FindAllStringSubmatch(r.URL, -1) {
 		name := match[2]
