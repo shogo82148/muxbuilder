@@ -13,8 +13,9 @@ type MUXBuilder struct {
 }
 
 type Route struct {
-	URL  string
-	Name string
+	URL    string
+	Name   string
+	Method string
 }
 
 type muxContext struct {
@@ -73,8 +74,12 @@ return mux.Build([]denco.Handler{`)
 }
 
 func (bc *muxContext) addRoute(r Route) {
+	method := r.Method
+	if method == "" {
+		method = "GET"
+	}
 	cd := newContextDefinition(r.Name + "Context")
-	hd := newHandlerDefinition("GET", r.URL, r.Name, cd.name)
+	hd := newHandlerDefinition(method, r.URL, r.Name, cd.name)
 	cd.addField("ResponseWriter", "http.ResponseWriter")
 	hd.addParam("ResponseWriter", "argWriter")
 	cd.addField("Request", "*http.Request")
