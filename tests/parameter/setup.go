@@ -15,5 +15,5 @@ func main() {
 			},
 		},
 	}
-	ioutil.WriteFile("parameter_mux_test.go", []byte(builder.Build()), 0644)
+	ioutil.WriteFile("mux.go", []byte(builder.Build()), 0644)
 }

@@ -23,5 +23,5 @@ func main() {
 			},
 		},
 	}
-	ioutil.WriteFile("simple_routing_mux_test.go", []byte(builder.Build()), 0644)
+	ioutil.WriteFile("mux.go", []byte(builder.Build()), 0644)
 }
